@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<script src="script.js"></script>
+<script src="homepagescript.js"></script>
 
 
 <style>
@@ -113,11 +113,11 @@
         border-bottom: solid black 1px;
     }
 
-    .dropdown h5{
+    .dropdown h5 {
         vertical-align: middle;
         padding-left: 1vw;
         padding-bottom: 1vh;
-    } 
+    }
 
     .hiddenDropdown {
         height: 0px;
@@ -129,13 +129,13 @@
 
     <div class="tab">
         <div class="titleBox">
-            <img src="house.png" style="margin-right: 2vw">
+            <img src="Insider-Trading.jpg" style="margin-right: 2vw" width="100">
             <h1>Insider Trading</h1>
         </div>
 
         <button id="homeButton" class="tablinks" onclick="toggleDropdown('homeDropdown')">My Group/Home</button>
         <script>
-            document.getElementById("homeButton").addEventListener("click", () => {changeMainTab("home")});
+            document.getElementById("homeButton").addEventListener("click", () => { changeMainTab("home") });
         </script>
         <div class="dropdown" id="homeDropdown">
             <h5>SuiteMates</h5>
@@ -143,14 +143,14 @@
             <h5>Work friends</h5>
             <h5>College Friends</h5>
         </div>
-        <button id="friendsButton" class="tablinks" >Add Friends</button>
+        <button id="friendsButton" class="tablinks">Add Friends</button>
         <script>
-            document.getElementById("friendsButton").addEventListener("click", () => {changeMainTab("friends")});
+            document.getElementById("friendsButton").addEventListener("click", () => { changeMainTab("friends") });
         </script>
-        
+
         <button id="settingsButton" class="tablinks" onclick="toggleDropdown('settingsDropdown')">Settings</button>
         <script>
-            document.getElementById("settingsButton").addEventListener("click", () => {changeMainTab("settings")});
+            document.getElementById("settingsButton").addEventListener("click", () => { changeMainTab("settings") });
         </script>
         <div class="dropdown" id="settingsDropdown">
 
@@ -160,9 +160,6 @@
 
     <div class="tabcontent" id="tabcontent">
 
-    
-
-
     </div>
 </div>
 
@@ -170,4 +167,5 @@
 <script>
     changeMainTab("home");
 </script>
+
 </html>
