@@ -17,9 +17,13 @@
 /**
  * changes the main tab to the given group
  */
-function changeMainTab(tabName){
-
-
+function changeMainTab(tabId){
+var contents = document.getElementsByClassName("tabcontentwrapper");
+for(var i = 0;i<contents.length;i++){
+    contents[i].classList.add("hiddenContent");
+}
+document.getElementById(tabId).classList.remove("hiddenContent");
+/** 
     var tabContent = document.getElementById("tabcontent");
     tabContent.innerHTML = "";
     if(tabName == "home"){
@@ -36,11 +40,13 @@ function changeMainTab(tabName){
 
         tabContent.appendChild(plusButton);
     }
-    else if(tabName == "settings"){
+    else if(tabName == "friends"){
         
     }
+**/
 
 }
+
 
 
 /**

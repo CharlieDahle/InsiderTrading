@@ -89,14 +89,11 @@
         width: 70%;
         border-left: none;
         height: fit-content;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
         padding-top: 2vh;
     }
 
 
-    .tabcontent>* {
+    #home>* {
         margin-right: 2vw;
         margin-bottom: 2vh;
     }
@@ -123,13 +120,30 @@
         height: 0px;
         visibility: hidden;
     }
+
+    .tabcontentwrapper {
+        width: 100%;
+        height: 100%;
+    }
+
+    .hiddenContent {
+        width: 0px;
+        height: 0px;
+        visibility: hidden;
+    }
+
+    #home {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
 </style>
 
 <div id="mainContent">
 
     <div class="tab">
         <div class="titleBox">
-            <img src="Insider-Trading.jpg" style="margin-right: 2vw" width="100">
+            <img src="house.png" style="margin-right: 2vw">
             <h1>Insider Trading</h1>
         </div>
 
@@ -152,6 +166,12 @@
         <script>
             document.getElementById("settingsButton").addEventListener("click", () => { changeMainTab("settings") });
         </script>
+
+        <button id="logoutButton" class="tablinks" onclick="toggleDropdown('logoutDropdown')">Logout</button>
+        <script>
+            document.getElementById("logoutButton").addEventListener("click", () => { changeMainTab("logout") });
+        </script>
+
         <div class="dropdown" id="settingsDropdown">
 
         </div>
@@ -159,13 +179,60 @@
     </div>
 
     <div class="tabcontent" id="tabcontent">
+        <div class="tabcontentwrapper" id="home">
+            <div class="circleGroup">
+
+
+                <h3>Suitemates</h3>
+
+            </div>
+
+            <div class="circleGroup">
+                <h3>Friends</h3>
+
+            </div>
+
+            <div class="circleGroup">
+                <h3>Work Friends</h3>
+
+            </div>
+            <div class="circleGroup">
+                <h3>College Friends</h3>
+
+            </div>
+            <div class="circleGroup">
+                <h1>+</h1>
+
+            </div>
+        </div>
+        <div class="tabcontentwrapper hiddenContent" id="logout">
+            <h1>Insider Trading</h1>
+            <img src="Insider-Trading.jpg" alt="Logo" width="200">
+            <form method="post" action="">
+                <p>Welcome back, please login to your account</p>
+                <p><input type="text" name="login" value="" placeholder="Username"></p>
+                <p><input type="password" name="password" value="" placeholder="Password"></p>
+                <p class="remember_me">
+                    <label>
+                        <input type="checkbox" name="remember_me" id="remember_me">
+                        Remember me on this computer
+                    </label>
+                </p>
+                <p class="submit"><input type="submit" name="commit" value="Login"></p>
+            </form>
+            <div class="login-help">
+                <p>Forgot your password? <a href="#">Click here to reset it</a>.</p>
+            </div>
+            <div class="new-account">
+                <p>Don't have an account? Make one <a href="#">here</a>.</p>
+            </div>
+        </div>
+
+        
 
     </div>
 </div>
 
 
-<script>
-    changeMainTab("home");
-</script>
 
 </html>
