@@ -1,18 +1,9 @@
 /**
  *person class
- *takes a name a
+ *takes a name
  */
 class person {
   constructor(name) {
-    try {
-      if (name) {
-      }
-    } catch (e) {
-      if (e instanceof ReferenceError) {
-        throw new ReferenceError("ref err");
-      }
-      console.log("ERR");
-    }
     if (typeof name === "string" || name instanceof String) {
       this.name = name;
       this.total = 0;
@@ -79,6 +70,7 @@ class group {
   }
   calculate() {
     var self = this;
+    var tempTotal = self.total;
     self.makeLists();
     if (self.pos.length > 0 && self.neg.length > 0) {
       for (let i = 0; i < self.pos.length; i++) {
@@ -106,6 +98,7 @@ class group {
       }
       self.calculate();
     }
+    self.total = tempTotal;
   }
   /**
    * Makes the list of people in the neg and another for people in the pos
@@ -154,6 +147,15 @@ class group {
         // );
         answerDiv.appendChild(p);
       }
+    }
+  }
+  clearTransactionHistory() {
+    this.transNum = 0;
+    this.transaction = [[]];
+    for (let i = 0; i < this.groupsize; i++) {
+      this.somePeople[i].total = 0;
+      this.somePeople[i].logIndex = 0;
+      this.somePeople[i].log = [[]];
     }
   }
 }
@@ -268,8 +270,13 @@ g.makePayment(tina, 11, "cookies", "04/23/2022");
 g.makePayment(tina, 420, "weed", "04/23/2022");
 g.makePayment(tina, 28, "concert tickets", "04/23/2022");
 g.makePayment(tina, 18, "detergent", "04/23/2022");
+g.makePayment(ben, 500, "bees", "04/13/2022");
+g.makePayment(trevor, 11, "1s", "11/11/2011");
+g.makePayment(charlie, 5000, "1 piece of candy", "04/13/2022");
+
 g.calculate();
 g.getGroupOwe();
+
 // Parameters: length of requested id
 // Return: unique and random id
 // makeid generates a random string that is the length of the parameter it recieves
