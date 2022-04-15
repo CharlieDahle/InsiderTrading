@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<script src="homepagescript.js"></script>
+<script src="homepagescript.js" defer></script>
 
 
 <style>
+    .table-content {
+        width: 50%;
+        margin-left: 20%
+    }
+
     * {
         box-sizing: border-box
     }
@@ -70,6 +75,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        cursor: pointer;
     }
 
     .circleGroup h3 {
@@ -79,6 +85,10 @@
 
     .circleGroup h1 {
         font-size: 150px;
+    }
+
+    .circleGroup:hover {
+        transform: scale(1.05, 1.05);
     }
 
 
@@ -139,11 +149,13 @@
     }
 </style>
 
+
+
 <div id="mainContent">
 
     <div class="tab">
         <div class="titleBox">
-            <img src="house.png" style="margin-right: 2vw">
+            <img src="Insider-Trading.jpg" width="150px" style="margin-right: 2vw">
             <h1>Insider Trading</h1>
         </div>
 
@@ -167,10 +179,8 @@
             document.getElementById("settingsButton").addEventListener("click", () => { changeMainTab("settings") });
         </script>
 
-        <button id="logoutButton" class="tablinks" onclick="toggleDropdown('logoutDropdown')">Logout</button>
-        <script>
-            document.getElementById("logoutButton").addEventListener("click", () => { changeMainTab("logout") });
-        </script>
+        <button id="logoutButton" class="tablinks" onclick="window.location.href='login.html'">Logout</button>
+
 
         <div class="dropdown" id="settingsDropdown">
 
@@ -180,7 +190,7 @@
 
     <div class="tabcontent" id="tabcontent">
         <div class="tabcontentwrapper" id="home">
-            <div class="circleGroup">
+            <div class="circleGroup" onclick="changeMainTab('home_suitemates')">
 
 
                 <h3>Suitemates</h3>
@@ -205,33 +215,48 @@
 
             </div>
         </div>
-        <div class="tabcontentwrapper hiddenContent" id="logout">
-            <h1>Insider Trading</h1>
-            <img src="Insider-Trading.jpg" alt="Logo" width="200">
-            <form method="post" action="">
-                <p>Welcome back, please login to your account</p>
-                <p><input type="text" name="login" value="" placeholder="Username"></p>
-                <p><input type="password" name="password" value="" placeholder="Password"></p>
-                <p class="remember_me">
-                    <label>
-                        <input type="checkbox" name="remember_me" id="remember_me">
-                        Remember me on this computer
-                    </label>
-                </p>
-                <p class="submit"><input type="submit" name="commit" value="Login"></p>
-            </form>
-            <div class="login-help">
-                <p>Forgot your password? <a href="#">Click here to reset it</a>.</p>
+
+
+
+
+
+        <div class="tabcontentwrapper hiddenContent" id="home_suitemates">
+            <!-- CHARLIE PUT YOUR CODE IN BETWEEN THIS DIV!!-->
+            <h1>Suitemates Group</h1>
+            <table id="transaction_table" border="3" class="table-content">
+
+            </table>
+            <div id="calculated_answer">
+                <p>Payments to be made:</p>
+            </div>
+
+
+        </div>
+        <div class="tabcontentwrapper hiddenContent" id="settings">
+            <div class="login">
+                <form method="post" action="">
+                    <p>Reset your password. </p>
+                    <p><input type="email" name="login" value="" placeholder="Username" id="username" required></p>
+                    <p><input type="password" name="oldPassword" value="" placeholder="Old Password" id="oldPassword"
+                            required></p>
+                    <p><input type="password" name="newPassword" value="" placeholder="New Password" id="newPassword"
+                            required></p>
+                    <p><input type="password" name="confirmPassword" value="" placeholder="Confirm New Password"
+                            id="confirmPassword" required></p>
+                    <input type="button" value="Submit" id="newPassButton" />
+
+                </form>
+            </div>
+
+            <div class="new-account">
+                <p>Back to the <a href="login.html">login page</a>.</p>
             </div>
             <div class="new-account">
-                <p>Don't have an account? Make one <a href="#">here</a>.</p>
+                <p>Don't have an account? Make one <a href="createUser.html">here</a>.</p>
             </div>
+
+
         </div>
-
-        
-
-    </div>
-</div>
 
 
 
