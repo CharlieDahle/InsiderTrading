@@ -170,48 +170,39 @@ function main() {
     g.getGroupOwe();
     createTable();
     // g.getGroupOwe();
+
+
+    let b = document.getElementById("add-transaction")
+
+
+
+
 }
 
 // START OF CHARLIE'S TRANSACTION LOGGING CODE
 
-let transactionLog = new Map(); // declaring variable for map object
+let transactionLog = new Map(); // a log of all transactions. K is 5 digit random string, V is transaction object
 let transactionIDs = []; // storing all the unique transaction IDs for simplicity
-let usersInGroup = [];
+let usersInGroup = [];  // keeps track of all users in the group 
 
-// recordTransaction takes the name of the group member, the subject, the transaction amount, and
-// the date, and also possibly an image or description. It creates a new transaction in the
-// transactionLog map with a unique 5 digit ID as the key and the transaction object as a value.
+// recordTransaction takes the name of the group member, the item, the transaction amount, and
+// the date. It creates a new transaction in the transactionLog map with a unique 5 digit ID as 
+// the key and the transaction object as a value. It returns the 5 digit ID key.
 function recordTransaction(name, item, total, date) {
     if (!(name in usersInGroup)) {
         usersInGroup.push(name);
     }
-    transactionLog.set(makeid(5), new Transaction(name, item, total, date));
+    let id = makeid(5);
+
+    transactionLog.set(id, new Transaction(name, item, total, date));
+
+    return id;
 }
 
-/**
- * tests to write:
- * transactions store the correct fields for name, item, total, and date
- * transactions get stored in map in K,V pair
- */
-
-// printTransactions logs the transaction log to the console
-function printTransactions() {
-    transactionLog.forEach(function (value, key) {
-        console.log(
-            key +
-            " = " +
-            value.getName() +
-            " - $" +
-            value.getTotal() +
-            " on: " +
-            value.getDate()
-        );
-    });
-}
 
 // The Transaction class creates objects which represent a single transaction. The transactions
 // are stored in a Map using a unique 5 digit ID as the key, and the transaction object
-// as the value. Transaction objects contain 5 fields: name, total, date, image, description
+// as the value. Transaction objects contain 3 fields: name, item, total, date
 class Transaction {
     constructor(name, item, total, date) {
         this.name = name;
@@ -259,16 +250,15 @@ let g = new group([ben, tina, charlie, trevor]);
 for (let i = 0; i < 4; i++) {
     usersInGroup.push(g.somePeople[i].name);
 }
-g.makePayment(charlie, 25, "breakfast", "10/12/2022");
-g.makePayment(charlie, 14, "lunch", "10/12/2022");
-g.makePayment(charlie, 29, "dinner", "10/12/2022");
-g.makePayment(charlie, 20, "video game", "10/12/2022");
-g.makePayment(tina, 11, "cookies", "04/23/2022");
-g.makePayment(tina, 420, "weed", "04/23/2022");
-g.makePayment(tina, 28, "concert tickets", "04/23/2022");
+g.makePayment(charlie, 25, "breakfast", "04/14/2022");
+g.makePayment(charlie, 14, "lunch", "03/21/2022");
+g.makePayment(tina, 11, "cookies", "04/29/2022");
+g.makePayment(tina, 29, "dinner", "04/14/2022");
+g.makePayment(tina, 28, "concert tickets", "04/11/2022");
 g.makePayment(tina, 18, "detergent", "04/23/2022");
 g.makePayment(ben, 500, "bees", "04/13/2022");
 g.makePayment(trevor, 60, "chocolate milk", "04/14/2022")
+g.makePayment(trevor, 20, "video game", "04/02/2022");
 
 
 
@@ -293,7 +283,6 @@ function makeid(length) {
         return result;
     } else {
         makeid(length);
-        console.log("got here"); // error when it generates the same ID
     }
 }
 
@@ -326,28 +315,6 @@ function changeMainTab(tabId) {
         contents[i].classList.add("hiddenContent");
     }
     document.getElementById(tabId).classList.remove("hiddenContent");
-    /** 
-        var tabContent = document.getElementById("tabcontent");
-        tabContent.innerHTML = "";
-        if(tabName == "home"){
-            tabContent.appendChild(createCircleGroup("Suitemates"));
-            tabContent.appendChild(createCircleGroup("Friends"));
-            tabContent.appendChild(createCircleGroup("Work Friends"));
-            tabContent.appendChild(createCircleGroup("College Friends"));
-            
-            var plusButton = document.createElement("div");
-            plusButton.classList.add("circleGroup");
-            var circleText = document.createElement("h1");
-            circleText.innerHTML = "+";
-            plusButton.appendChild(circleText);
-    
-            tabContent.appendChild(plusButton);
-        }
-        else if(tabName == "friends"){
-            
-        }
-    **/
-
 }
 
 
@@ -365,7 +332,9 @@ function createCircleGroup(text) {
 }
 
 
-
+// createTable edits the "transaction_table" div. It creates a cell 
+// for every individual and then an unordered list in that cell for 
+// that individual's transactions
 function createTable() {
     let table = document.getElementById("transaction_table");
     table.innerHTML = "";
