@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 
 <div class="login">
   <h1>Insider Trading</h1>
@@ -22,4 +22,89 @@
 </div>
 <div class="new-account">
   <p>Don't have an account? Make one <a href="createUser.html">here</a>.</p>
-</div>
+</div> -->
+
+
+<!DOCTYPE html>
+
+<script src="login.js"></script>
+<style>
+  body {
+    color: rgb(38, 50, 56);
+    font-family: 'Ubuntu', sans-serif;
+    width: 100%;
+    height: 100%;
+    padding: 0.5vw;
+    margin: 0;
+  }
+
+  .username {
+    width: 65%;
+    color: rgb(38, 50, 56);
+    padding: 10px 20px;
+    font-family: 'Ubuntu', sans-serif;
+    box-sizing: border-box;
+    border: 2px solid rgb(152, 162, 217);
+  }
+
+  .password {
+    width: 65%;
+    color: rgb(38, 50, 56);
+    padding: 10px 20px;
+    box-sizing: border-box;
+    font-family: 'Ubuntu', sans-serif;
+    border: 2px solid rgb(152, 162, 217);
+  }
+
+  .submit {
+    color: #fff;
+    background: linear-gradient(to right, #929ee6, #6357e8);
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 13px;
+  }
+
+  .boxed {
+    color: rgb(38, 50, 56);
+    background-color: #ADD8E6;
+    border: 1px solid black;
+    text-align: center;
+    width: 500px;
+  }
+</style>
+
+<div class="login">
+  <marquee>
+    <img src="Insider-Trading.jpg" alt="Logo" width="200">
+  </marquee>
+  <h1>Insider Trading</h1>
+  <p>"Where friends meet efficiency" </p>
+
+  <div class="boxed">
+    <form method="post" action="./homepage.html">
+      <p>Welcome back, please login to your account.</p>
+      <p><input type="username" name="login" value="" placeholder="Username" class="username" id="username" required>
+      </p>
+      <p><input type="password" name="password" value="" placeholder="Password" class="password" id="password" required>
+      </p>
+      <p class="remember_me">
+        <label>
+          <input type="checkbox" name="remember_me" id="remember_me">
+          Remember me on this computer
+        </label>
+      </p>
+      <button class="submit" id="loginButton">Login</button>
+    </form>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <p>Forgot your password? <a href="setPassword.html">Click here to reset it</a>.</p>
+
+    <p>Don't have an account? Make one <a href="createUser.html">here</a>.</p>
+  </div>
+
+  <img src="https://image.shutterstock.com/image-photo/group-multiethnic-friends-eating-pizza-260nw-1115103929.jpg"
+    width="200">
