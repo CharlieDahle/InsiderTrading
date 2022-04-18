@@ -1,26 +1,27 @@
-
-
 /**
  * 
  * Verify if new username is in email format
  */
 function verifyNewUser(newUsername, newPassword) {
-
   if (correctEmail(newUsername)) {
     if (localStorage.getItem(newUsername) != null) {
       alert("This email is already associated with an account. Try again.");
       newUsername = "";
+      return "This email is already associated with an account. Try again.";
     } else {
       if (isStrongPassword(newPassword)) {
         localStorage.setItem(newUsername, newPassword);
       } else {
         alert("Password must have at least 8 characters, not contain the word password and have an uppercase letter");
+        return ("Password must have at least 8 characters, not contain the word password and have an uppercase letter");
       }
 
       alert("New user created.");
+      return ("New user created.");
     }
   } else {
     alert("Incorrect email format.");
+    return ("Incorrect email format.");
   }
 }
 
