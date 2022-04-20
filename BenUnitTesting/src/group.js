@@ -51,7 +51,7 @@ class group {
       this.groupsize = somePeople.length;
       this.somePeople = somePeople;
       this.transNum = 0; //number of transactions to key the transaction array
-      this.transaction = [[person, person, 0]];
+      this.transaction = [[]];
 
       this.pos = [];
       this.neg = [];
@@ -171,7 +171,7 @@ class group {
         //     " $" +
         //     this.transaction[i][2].toFixed(2)
         // );
-        answerDiv.appendChild(p); //errors when not attached
+        // answerDiv.appendChild(p); //errors when not attached
       }
     }
   }
@@ -197,12 +197,15 @@ function main() {
   let charlie = new person("charlie");
   //let trevor = new person("trevor");
   let g = new group([ben, tina, charlie]);
-  g.makePayment(tina, 4, "weed", "04/14/20");
-  g.makePayment(ben, 3, "weed", "04/14/20");
+  g.makePayment(tina, 12, "weed", "04/14/20");
+
+  g.makePayment(tina, 9, "weed", "04/14/20");
+  g.makePayment(ben, 18, "weed", "04/14/20");
   //console.log(ben.total);
   //console.log(tina.total);
   //console.log(charlie.total);
   g.calculate();
+  console.log(g.transaction[0]);
 }
 
 // START OF CHARLIE'S TRANSACTION LOGGING CODE

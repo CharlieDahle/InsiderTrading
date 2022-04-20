@@ -8,11 +8,6 @@ describe("Nothing entered into the person constructor can break it", () => {
       new person(undefined);
     }).toThrow(new Error("string req"));
   });
-  //   it("unquoted text", function () {
-  //     expect(function () {
-  //       new person(ben);
-  //     }).toThrow(new Error("string req"));
-  //   });
   it("numbers", function () {
     expect(function () {
       new person(12);
@@ -75,25 +70,51 @@ describe("making payments", () => {
     expect(a.total + b.total + c.total).toBeCloseTo(0);
   });
 });
+describe("creating lists", () => {
+  beforeEach(() => {
+    a = new person("a");
+    b = new person("b");
+    c = new person("c");
+    g = new group([a, b, c]);
+  });
+  it("make lists fills pos and neg", function () {
+    g.makePayment(a, 12);
+    g.makeLists();
+    expect(g.neg[0]).toBe(b);
+    expect(g.neg[1]).toBe(c);
+    expect(g.pos[0]).toBe(a);
+  });
+  it("pos and neg are undefined when no transactions", () => {
+    g.makeLists();
+    expect(g.neg[0]).toBe(undefined);
+    expect(g.pos[0]).toBe(undefined);
+  });
+});
 describe("calculating payments", () => {
   beforeEach(() => {
     a = new person("a");
     b = new person("b");
     c = new person("c");
     g = new group([a, b, c]);
-    g.makePayment(a, 12);
   });
   it("calculate fill the transaction log", function () {
+    g.makePayment(a, 12);
     g.calculate();
     expect(g.transaction).toHaveSize(2);
     expect(g.transaction).toContain([b, a, 4]);
     expect(g.transaction).toContain([c, a, 4]);
   });
-  it("calculate ", function () {
+  it("calculate with multiple payments", function () {
+    g.makePayment(a, 12);
     g.makePayment(a, 9);
     g.makePayment(c, 18);
-
+    g.calculate();
+    console.log(g.transaction[0]);
+    expect(g.transaction).toHaveSize(2);
+    expect(g.transaction).toContain([b, a, 8]);
+  });
+  it("calculate with no payments", function () {
+    g.calculate();
     expect(g.transaction).toHaveSize(1);
-    expect(g.transaction).toContain([a, c, 7]);
   });
 });
