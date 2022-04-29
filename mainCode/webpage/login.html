@@ -1,34 +1,26 @@
-<!-- <!DOCTYPE html>
-
-<div class="login">
-  <h1>Insider Trading</h1>
-  <img src="Insider-Trading.jpg" alt="Logo" width="200">
-  <form method="post" action="./homepage.html">
-    <p>Welcome back, please login to your account</p>
-    <p><input type="username" name="login" value="" placeholder="Username" id="username" required></p>
-    <p><input type="password" name="password" value="" placeholder="Password" id="password" required></p>
-    <p class="remember_me">
-      <label>
-        <input type="checkbox" name="remember_me" id="remember_me">
-        Remember me on this computer
-      </label>
-    </p>
-    <p class="submit"><input type="submit" name="commit" value="Login"></p>
-  </form>
-</div>
-
-<div class="login-help">
-  <p>Forgot your password? <a href="setPassword.html">Click here to reset it</a>.</p>
-</div>
-<div class="new-account">
-  <p>Don't have an account? Make one <a href="createUser.html">here</a>.</p>
-</div> -->
-
-
 <!DOCTYPE html>
+<html lang="en">
 
-<script src="login.js"></script>
+
 <style>
+  .login {
+    background-image: url("https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fimg1.cookinglight.timeinc.net%2Fsites%2Fdefault%2Ffiles%2Fstyles%2F4_3_horizontal_-_1200x900%2Fpublic%2Fimage%2Feating-out.jpg%3Fitok%3D-T_FIDmp&w=400&c=sc&poi=face&q=60");
+    background-size: cover;
+    /* Set rules to fill background */
+    min-height: 100%;
+    min-width: 1024px;
+
+    /* Set up proportionate scaling */
+    width: 100%;
+    height: auto;
+
+    /* Set up positioning */
+    position: fixed;
+    top: 0;
+    left: 0;
+
+  }
+
   body {
     color: rgb(38, 50, 56);
     font-family: 'Ubuntu', sans-serif;
@@ -37,6 +29,7 @@
     padding: 0.5vw;
     margin: 0;
   }
+
 
   .username {
     width: 65%;
@@ -68,23 +61,25 @@
   }
 
   .boxed {
+    text-align: center;
     color: rgb(38, 50, 56);
     background-color: #ADD8E6;
-    border: 1px solid black;
+    border: 3px solid rgb(49, 42, 174);
     text-align: center;
-    width: 500px;
-  }
+    width: 400px;
+    height: 600px;
+    margin: 1em auto;
+    border-radius: 1.5em;
 </style>
 
-<div class="login">
-  <marquee>
-    <img src="Insider-Trading.jpg" alt="Logo" width="200">
-  </marquee>
-  <h1>Insider Trading</h1>
-  <p>"Where friends meet efficiency" </p>
+<script src="login.js"></script>
 
+<div class="login">
   <div class="boxed">
-    <form method="post" action="./homepage.html">
+    <img src="Insider-Trading1.png" alt="Logo" width="200">
+    <h1>Insider Trading</h1>
+    <p>"Where friends meet efficiency The correct one " </p>
+    <form method="post">
       <p>Welcome back, please login to your account.</p>
       <p><input type="username" name="login" value="" placeholder="Username" class="username" id="username" required>
       </p>
@@ -96,15 +91,12 @@
           Remember me on this computer
         </label>
       </p>
-      <button class="submit" id="loginButton">Login</button>
+      <button class="submit" id="loginButton" onclick="getLogin()">Login</button>
     </form>
 
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-
     <p>Forgot your password? <a href="setPassword.html">Click here to reset it</a>.</p>
-
     <p>Don't have an account? Make one <a href="createUser.html">here</a>.</p>
   </div>
+  <div>
 
-  <img src="https://image.shutterstock.com/image-photo/group-multiethnic-friends-eating-pizza-260nw-1115103929.jpg"
-    width="200">
+</html>
