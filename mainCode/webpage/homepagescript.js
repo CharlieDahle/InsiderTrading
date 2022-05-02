@@ -24,18 +24,18 @@ class person {
       if (this.log[i][1] > 0) {
         console.log(
           this.name +
-            " owes " +
-            this.log[i][0].name +
-            " $" +
-            this.log[i][1].toFixed(2)
+          " owes " +
+          this.log[i][0].name +
+          " $" +
+          this.log[i][1].toFixed(2)
         );
       } else if (this.log[i][1] < 0) {
         console.log(
           this.log[i][0].name +
-            " owes " +
-            this.name +
-            " $" +
-            -this.log[i][1].toFixed(2)
+          " owes " +
+          this.name +
+          " $" +
+          -this.log[i][1].toFixed(2)
         );
       }
     }
@@ -51,18 +51,73 @@ class group {
       this.groupsize = somePeople.length;
       this.somePeople = somePeople;
       this.transNum = 0;
-      this.transaction = [[person, person, 0]];
-
+      this.transaction = [[]];
+      this.transactionLog = new Map(); // a log of all transactions. K is 5 digit random string, V is transaction object
+      this.transactionIDs = []; // storing all the unique transaction IDs for simplicity
       this.pos = [];
       this.neg = [];
+
+
+      let b = document.getElementById("add-button");
+      b.addEventListener("click", () => {
+
+        let n = document.getElementById("nInput").value;
+
+        let t = document.getElementById("tInput").value;
+
+        let i = document.getElementById("iInput").value;
+
+        let d = document.getElementById("dInput").value;
+
+
+        let p;
+
+        for (let x = 0; x < this.groupsize; x++) {
+          if (this.somePeople[x].name == n) {
+            p = this.somePeople[x];
+          }
+        }
+
+        this.makePayment(p, t, i, d)
+        this.createTable();
+      });
+
+
     } else {
       throw new Error("array req");
     }
   }
+
+
+  updateTable() {
+
+    console.log("getting here");
+    let n = document.getElementById("nInput").value;
+
+    let t = document.getElementById("tInput").value;
+
+    let i = document.getElementById("iInput").value;
+
+    let d = document.getElementById("dInput").value;
+
+
+    let p;
+
+    for (let x = 0; x < this.groupsize; x++) {
+      if (this.somePeople[x].name == n) {
+        p = this.somePeople[x];
+      }
+    }
+
+    this.makePayment(p, t, i, d)
+    this.createTable();
+  }
+
+
   makePayment(person, amt, item, date) {
     //neg amounts mean in debt
-    transactionLog.set(
-      makeid(5),
+    this.transactionLog.set(
+      this.makeid(5),
       new Transaction(person.name, item, amt, date)
     );
     let owed = amt / this.groupsize;
@@ -154,28 +209,90 @@ class group {
       }
     }
   }
-}
 
-// END OF BEN'S CALCULATE CODE
-
-// START OF CHARLIE'S TRANSACTION LOGGING CODE
-
-let transactionLog = new Map(); // a log of all transactions. K is 5 digit random string, V is transaction object
-let transactionIDs = []; // storing all the unique transaction IDs for simplicity
-let usersInGroup = []; // keeps track of all users in the group
-
-// recordTransaction takes the name of the group member, the item, the transaction amount, and
-// the date. It creates a new transaction in the transactionLog map with a unique 5 digit ID as
-// the key and the transaction object as a value. It returns the 5 digit ID key.
-function recordTransaction(name, item, total, date) {
-  if (!(name in usersInGroup)) {
-    usersInGroup.push(name);
+  makeid(length) {
+    let result = "";
+    let characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    if (!this.transactionLog.has(result)) {
+      this.transactionIDs.push(result);
+      return result;
+    } else {
+      this.makeid(length);
+    }
   }
-  let id = makeid(5);
 
-  transactionLog.set(id, new Transaction(name, item, total, date));
+  // createTable edits the "transaction_table" div. It creates a cell
+  // for every individual and then an unordered list in that cell for
+  // that individual's transactions
+  createTable() {
 
-  return id;
+    // let b = document.getElementById("add-button");
+    // b.addEventListener("click", () => {
+
+    //   let n = document.getElementById("nInput").value;
+
+    //   let t = document.getElementById("tInput").value;
+
+    //   let i = document.getElementById("iInput").value;
+
+    //   let d = document.getElementById("dInput").value;
+
+
+    //   let p;
+
+    //   for (let x = 0; x < this.groupsize; x++) {
+    //     if (this.somePeople[x].name == n) {
+    //       p = this.somePeople[x];
+    //     }
+    //   }
+
+    //   this.makePayment(p, t, i, d)
+    //   //this.createTable();
+    // });
+
+    let table = document.getElementById("transaction_table");
+    table.innerHTML = "";
+    let th = document.createElement("th");
+    th.innerHTML = "Transactions";
+    th.setAttribute("colspan", 2);
+    table.appendChild(th);
+
+    for (let x = 0; x < this.groupsize; x++) {
+      let tr = document.createElement("tr");
+      let nameTd = document.createElement("td");
+      nameTd.innerHTML = this.somePeople[x].name;
+      let td = document.createElement("td");
+      tr.appendChild(nameTd);
+      tr.appendChild(td);
+
+      let oldText = "<ul>";
+      let newText = "";
+
+      for (let [key, value] of this.transactionLog) {
+        if (value.name == this.somePeople[x].name) {
+          newText =
+            "<li> <b>" +
+            value.item +
+            " on " +
+            value.date +
+            " for $" +
+            value.total +
+            "</b> </li>";
+
+          oldText = oldText + newText;
+
+          td.innerHTML = oldText;
+        }
+      }
+      td.innerHTML = oldText + "</ul>";
+      table.appendChild(tr);
+    }
+  }
 }
 
 // The Transaction class creates objects which represent a single transaction. The transactions
@@ -225,9 +342,9 @@ let tina = new person("tina");
 let charlie = new person("charlie");
 let trevor = new person("trevor");
 let g = new group([ben, tina, charlie, trevor]);
-for (let i = 0; i < 4; i++) {
-  usersInGroup.push(g.somePeople[i].name);
-}
+// for (let i = 0; i < 4; i++) {
+//   usersInGroup.push(g.somePeople[i].name);
+// }
 g.makePayment(charlie, 25, "breakfast", "04/14/2022");
 g.makePayment(charlie, 14, "lunch", "03/21/2022");
 g.makePayment(tina, 11, "cookies", "04/29/2022");
@@ -238,29 +355,20 @@ g.makePayment(ben, 500, "bees", "04/13/2022");
 g.makePayment(trevor, 60, "chocolate milk", "04/14/2022");
 g.makePayment(trevor, 20, "video game", "04/02/2022");
 
+
+
+
+
 g.calculate();
 g.getGroupOwe();
-createTable();
+g.createTable();
+
+
+
 
 // Parameters: length of requested id
 // Return: unique and random id
 // makeid generates a random string that is the length of the parameter it recieves
-
-function makeid(length) {
-  let result = "";
-  let characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let charactersLength = characters.length;
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  if (!transactionLog.has(result)) {
-    transactionIDs.push(result);
-    return result;
-  } else {
-    makeid(length);
-  }
-}
 
 // END OF CHARLIE'S CODE
 
@@ -299,47 +407,4 @@ function createCircleGroup(text) {
   circleText.innerHTML = text;
   parentDiv.appendChild(circleText);
   return parentDiv;
-}
-
-// createTable edits the "transaction_table" div. It creates a cell
-// for every individual and then an unordered list in that cell for
-// that individual's transactions
-function createTable() {
-  let table = document.getElementById("transaction_table");
-  table.innerHTML = "";
-  let th = document.createElement("th");
-  th.innerHTML = "Transactions";
-  th.setAttribute("colspan", 2);
-  table.appendChild(th);
-
-  for (let x = 0; x < usersInGroup.length; x++) {
-    let tr = document.createElement("tr");
-    let nameTd = document.createElement("td");
-    nameTd.innerHTML = usersInGroup[x];
-    let td = document.createElement("td");
-    tr.appendChild(nameTd);
-    tr.appendChild(td);
-
-    let oldText = "<ul>";
-    let newText = "";
-
-    for (let [key, value] of transactionLog) {
-      if (value.name == usersInGroup[x]) {
-        newText =
-          "<li> <b>" +
-          value.item +
-          " on " +
-          value.date +
-          " for $" +
-          value.total +
-          "</b> </li>";
-
-        oldText = oldText + newText;
-
-        td.innerHTML = oldText;
-      }
-    }
-    td.innerHTML = oldText + "</ul>";
-    table.appendChild(tr);
-  }
 }
