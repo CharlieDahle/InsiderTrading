@@ -167,6 +167,82 @@
         flex-direction: row;
         flex-wrap: wrap;
     }
+
+    .circular--square {
+        border-top-left-radius: 50% 50%;
+        border-top-right-radius: 50% 50%;
+        border-bottom-right-radius: 50% 50%;
+        border-bottom-left-radius: 50% 50%;
+        width: 100px;
+        height: 100px;
+        color: rgb(38, 50, 56);
+        font-family: 'Ubuntu', sans-serif;
+        box-sizing: border-box;
+        border: 2px solid rgb(152, 162, 217);
+
+    }
+
+    .center-container {
+        display: flex;
+        align-items: center;
+    }
+
+    form.example input[type=text] {
+        padding: 10px;
+        font-size: 17px;
+        border: 1px solid grey;
+        float: left;
+        width: 80%;
+        background: #f1f1f1;
+    }
+
+    /* Style the submit button */
+    form.example button {
+        float: left;
+        width: 20%;
+        padding: 10px;
+        background: #5786ac;
+        color: white;
+        font-size: 17px;
+        border: 1px solid grey;
+        border-left: none;
+    }
+
+    /* Clear floats */
+    form.example::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    #username,
+    #oldPassword,
+    #newPassword,
+    #confirmPassword {
+        width: 65%;
+        color: rgb(38, 50, 56);
+        padding: 10px 20px;
+        box-sizing: border-box;
+        font-family: 'Ubuntu', sans-serif;
+        border: 2px solid rgb(152, 162, 217);
+    }
+
+    #passButton {
+        color: #fff;
+        background: linear-gradient(to right, #929ee6, #6357e8);
+        padding-left: 40px;
+        padding-right: 40px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        font-family: 'Ubuntu', sans-serif;
+        font-size: 13px;
+    }
+
+    #settings {
+        margin: 25px;
+        width: 350px;
+        height: 200px;
+    }
 </style>
 
 
@@ -194,7 +270,8 @@
             document.getElementById("friendsButton").addEventListener("click", () => { changeMainTab("friends") });
         </script>
 
-        <button id="settingsButton" class="tablinks" onclick="toggleDropdown('settingsDropdown')">Settings</button>
+        <button id="settingsButton" class="tablinks" onclick="toggleDropdown('settingsDropdown')">Reset
+            Password</button>
         <script>
             document.getElementById("settingsButton").addEventListener("click", () => { changeMainTab("settings") });
         </script>
@@ -233,10 +310,6 @@
             </div>
         </div>
 
-
-
-
-
         <div class="tabcontentwrapper hiddenContent" id="home_suitemates">
             <!-- CHARLIE PUT YOUR CODE IN BETWEEN THIS DIV!!-->
             <h1>Suitemates Group</h1>
@@ -249,32 +322,51 @@
 
 
         </div>
-        <div class="tabcontentwrapper hiddenContent" id="settings">
-            <div class="login">
-                <form method="post" action="">
-                    <p>Reset your password. </p>
-                    <p><input type="email" name="login" value="" placeholder="Username" id="username" required></p>
-                    <p><input type="password" name="oldPassword" value="" placeholder="Old Password" id="oldPassword"
-                            required></p>
-                    <p><input type="password" name="newPassword" value="" placeholder="New Password" id="newPassword"
-                            required></p>
-                    <p><input type="password" name="confirmPassword" value="" placeholder="Confirm New Password"
-                            id="confirmPassword" required></p>
-                    <input type="button" value="Submit" id="newPassButton" />
 
-                </form>
-            </div>
+        <div class="tabcontentwrapper hiddenContent" id="friends">
+            <!-- Load icon library -->
+            <link rel="stylesheet"
+                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-            <div class="new-account">
-                <p>Back to the <a href="login.html">login page</a>.</p>
-            </div>
-            <div class="new-account">
-                <p>Don't have an account? Make one <a href="createUser.html">here</a>.</p>
-            </div>
+            <!-- The form -->
+            <form class="example" action="action_page.php">
+                <input type="text" placeholder="Search.." name="search">
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
 
-
+            <hr size="2" color="#929ee6">
+            <div class=center-container><img class="circular--square"
+                    src="https://www.essence.com/wp-content/uploads/2020/07/Candidate-4-scaled.jpg" alt="Barbie" />
+                &#160 &#160
+                &#160Tina</div>
+            <hr size="2" color="#929ee6">
+            <div class=center-container><img class="circular--square"
+                    src="https://www.stepstherapy.com.au/wp-content/uploads/2018/10/Yazmin-profile-picture-square.jpg"
+                    alt="Mary" />
+                &#160 &#160
+                &#160Charlie</div>
+            <hr size="2" color="#929ee6">
+            <div class=center-container><img class="circular--square"
+                    src="https://christian.gen.co/images/profile.square.small.jpg" alt="Barry" />
+                &#160 &#160
+                &#160Barry Allen</div>
+            <hr size="2" color="#929ee6">
+            <div class=center-container><img class="circular--square"
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgpyVVhvmd6lKYeTpi-2IlMA52BdnMF4noNwNiY1Jtbc0p5kKlxvg1FZV9BD_9OvRERzA&usqp=CAU" />
+                &#160 &#160
+                &#160Jeffery Bezos</div>
+            <hr size="2" color="#929ee6">
         </div>
 
 
+        <div class="tabcontentwrapper hiddenContent" id="settings">
+            <script src="login.js"></script>
+            <p><input type="email" name="username" placeholder="Username" id="username" required></p>
+            <p><input type="password" name="oldPassword" placeholder="Old Password" id="oldPassword" required></p>
+            <p><input type="password" name="newPassword" placeholder="New Password" id="newPassword" required></p>
+            <p><input type="password" name="confirmPassword" placeholder="Confirm New Password" id="confirmPassword"
+                    required></p>
+            <button id="passButton" onclick="resetPassword()">Change Password</button>
+        </div>
 
 </html>

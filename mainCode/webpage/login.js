@@ -34,14 +34,17 @@ function changeScr(delay) {
  */
 function resetPassword() {
   let username = document.getElementById("username").value;
-  let password = document.getElementById("password").value;
   let oldPassword = document.getElementById("oldPassword").value;
   let newPassword = document.getElementById("newPassword").value;
   let confirmPassword = document.getElementById("confirmPassword").value;
   if (localStorage.getItem(username) != null) {
-    if (password === oldPassword) {
+    if (localStorage.getItem(username) === oldPassword) {
       if (newPassword === confirmPassword) {
-        localStorage.set(username, newPassword)
+        localStorage.setItem(username, newPassword)
+        changeScr2();
+        alert("Password reset succesful.");//redirect to homepage
+        return false;
+
       } else {
         alert("Passwords do not match.");
       }
@@ -51,5 +54,13 @@ function resetPassword() {
   } else {
     alert("This email does not exist.");
   }
+}
 
+function changeScr2(delay) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      location.pathname = location.pathname.replace("setPassword", "login");
+      resolve();
+    }, delay);
+  });
 }
