@@ -1,12 +1,9 @@
-Homepagescript.js;
 
 /**
  *person class
  *takes a name
  */
-
-//somePeople.name to get their name
-class person {
+ class person {
   constructor(name) {
     if (typeof name === "string" || name instanceof String) {
       this.name = name;
@@ -28,18 +25,18 @@ class person {
       if (this.log[i][1] > 0) {
         console.log(
           this.name +
-          " owes " +
-          this.log[i][0].name +
-          " $" +
-          this.log[i][1].toFixed(2)
+            " owes " +
+            this.log[i][0].name +
+            " $" +
+            this.log[i][1].toFixed(2)
         );
       } else if (this.log[i][1] < 0) {
         console.log(
           this.log[i][0].name +
-          " owes " +
-          this.name +
-          " $" +
-          -this.log[i][1].toFixed(2)
+            " owes " +
+            this.name +
+            " $" +
+            -this.log[i][1].toFixed(2)
         );
       }
     }
@@ -60,14 +57,6 @@ class group {
       this.transactionIDs = []; // storing all the unique transaction IDs for simplicity
       this.pos = [];
       this.neg = [];
-
-      for (let x = 0; x < this.groupsize; x++) {
-        let s = document.createElement("option");
-        s.innerHTML = somePeople[x];
-        s.value = somePeople[x];
-        let selector = document.getElementById("nInput");
-        selector.appendChild(s);
-      }
 
       let b = document.getElementById("add-button");
       b.addEventListener("click", () => {
@@ -389,11 +378,14 @@ function toggleDropdown(id) {
    */
   dropdownElement.classList.toggle("hiddenDropdown");
 }
+
+const TABLE_KEY = "tables";
+
+
 function saveCurrentTable(tableId, group) {
   var tableObj = {};
   tableObj.log = {};
   var keys = group.transactionIDs;
-  console.log(keys);
   for (var i = 0; i < keys.length; i++) {
     tableObj.log[keys[i]] = group.transactionLog.get(keys[i]);
   }
@@ -401,17 +393,19 @@ function saveCurrentTable(tableId, group) {
   tableObj.ids = group.transactionIDs;
   tableObj.users = group.somePeople;
 
-  localStorage.setItem("table_" + tableId, JSON.stringify(tableObj));
+  window.tableData[tableId] = tableObj;
+
+  localStorage.setItem(TABLE_KEY, JSON.stringify(window.tableData));
 }
 
 /**
  * loads the table with the given id to the current table
  */
 function loadToTable(tableId) {
-  var tableRaw = localStorage.getItem("table_" + tableId);
-  if (tableRaw != null) {
-    var tableObj = JSON.parse(tableRaw);
+  window.tableData = JSON.parse(localStorage.getItem(TABLE_KEY));
+  var tableObj = window.tableData[tableId];
 
+  if (tableObj != null) {
     usersInGroup = tableObj.users;
 
     var personLs = [];
@@ -598,6 +592,7 @@ function addTabToHomeWithName(name) {
 
 const SAVED_BUBBLE_KEY = "bubbles";
 
+
 /**
  * saves a circle bubble in the local storage
  */
@@ -725,3 +720,36 @@ function loadAndAppendBubbles() {
 //     changeMainTab("home_table_" + window.currentTableId);
 //   }
 // }
+
+/**
+ * called when the name select is changed. only for use with new group member option. replaces the dropdown with an input to enter the new name and then replaces it
+ */
+function name_select_on_change(caller){
+
+
+
+  if(caller.selectedIndex == caller.options.length - 1){
+    //last option select which is new member option
+
+    //create new name input
+    var new_name_input = document.createElement("input");
+    new_name_input.placeholder = "New Name";
+    caller.replaceWith(new_name_input);
+    new_name_input.old_elem = caller;
+
+    new_name_input.onblur = function(){
+      this.replaceWith(this.old_elem);
+      if(this.value.trim() != ""){
+        //add new person
+        var new_person_name = this.value.trim();
+
+        //PUT NEW PERSON CODE IN HERE
+      }
+
+
+    }
+    new_name_input.focus();
+
+  }
+
+}
