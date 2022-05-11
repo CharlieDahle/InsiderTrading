@@ -1,7 +1,26 @@
 <!DOCTYPE html>
+<html lang="en">
 
 
 <style>
+  .login {
+    background-image: url("https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fimg1.cookinglight.timeinc.net%2Fsites%2Fdefault%2Ffiles%2Fstyles%2F4_3_horizontal_-_1200x900%2Fpublic%2Fimage%2Feating-out.jpg%3Fitok%3D-T_FIDmp&w=400&c=sc&poi=face&q=60");
+    background-size: cover;
+    /* Set rules to fill background */
+    min-height: 100%;
+    min-width: 1024px;
+
+    /* Set up proportionate scaling */
+    width: 100%;
+    height: auto;
+
+    /* Set up positioning */
+    position: fixed;
+    top: 0;
+    left: 0;
+
+  }
+
   body {
     color: rgb(38, 50, 56);
     font-family: 'Ubuntu', sans-serif;
@@ -11,22 +30,13 @@
     margin: 0;
   }
 
-
-  .username {
+  #username,
+  #password {
     width: 65%;
     color: rgb(38, 50, 56);
     padding: 10px 20px;
     font-family: 'Ubuntu', sans-serif;
     box-sizing: border-box;
-    border: 2px solid rgb(152, 162, 217);
-  }
-
-  .password {
-    width: 65%;
-    color: rgb(38, 50, 56);
-    padding: 10px 20px;
-    box-sizing: border-box;
-    font-family: 'Ubuntu', sans-serif;
     border: 2px solid rgb(152, 162, 217);
   }
 
@@ -46,27 +56,28 @@
   }
 
   .boxed {
+    text-align: center;
     color: rgb(38, 50, 56);
     background-color: #ADD8E6;
-    border: 3px solid rgb(72, 64, 238);
+    border: 3px solid rgb(49, 42, 174);
     text-align: center;
     width: 400px;
-    height: 350px;
+    height: 600px;
     margin: 1em auto;
     border-radius: 1.5em;
+  }
 </style>
 
 <script src="login.js"></script>
 
 <div class="login">
-  <img src="Insider-Trading.jpg" alt="Logo" width="200">
-  <h1>Insider Trading</h1>
-  <p>"Where friends meet efficiency" </p>
-
   <div class="boxed">
-    <form method="post" action="./homepage.html">
+    <br><img src="Insider-Trading.png" alt="Logo" width="200">
+    <h1>Insider Trading</h1>
+    <p>"Where friends meet efficiency" </p>
+    <form method="post">
       <p>Welcome back, please login to your account.</p>
-      <p><input type="username" name="login" value="" placeholder="Username" class="username" id="username" required>
+      <p><input type="username" name="username" value="" placeholder="Username" class="username" id="username" required>
       </p>
       <p><input type="password" name="password" value="" placeholder="Password" class="password" id="password" required>
       </p>
@@ -76,16 +87,13 @@
           Remember me on this computer
         </label>
       </p>
-      <button class="submit" id="loginButton">Login</button>
+      <button class="submit" id="loginButton"
+        onclick="getLogin(document.getElementById('username').value, document.getElementById('password').value)">Login</button>
     </form>
 
-
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-
     <p>Forgot your password? <a href="setPassword.html">Click here to reset it</a>.</p>
-
     <p>Don't have an account? Make one <a href="createUser.html">here</a>.</p>
   </div>
+  <div>
 
-  <img src="https://image.shutterstock.com/image-photo/group-multiethnic-friends-eating-pizza-260nw-1115103929.jpg"
-    width="200">
+</html>

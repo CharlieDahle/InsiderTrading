@@ -18,16 +18,18 @@ describe("reset Password", () => {
     });
     it("rejects wrong existing Password", () => {
         localStorage.setItem("AnotherFakeUser146@gmail.com", "LetMeIn46");
-        expect(resetPassword("AnotherFakeUser146@gmail.com", "Cups1235", "mousePad63", "Keys981", "Camera09")).toMatch("Incorrect old password.");
+        expect(resetPassword("AnotherFakeUser146@gmail.com", "Cups1235", "mousePad63", "Keys981",
+            "Camera09")).toMatch("Incorrect old password.");
 
     });
     it("cannot confirm password", () => {
-        expect(resetPassword("AnotherFakeUser146@gmail.com", "LetMeIn46", "LetMeIn46", "Keys981", "Camera09")).toMatch("Passwords do not match.");
+        expect(resetPassword("AnotherFakeUser146@gmail.com", "LetMeIn46", "LetMeIn46", "Keys981",
+            "Camera09")).toMatch("Passwords do not match.");
 
     });
     it("successful reset", () => {
         localStorage.setItem("PaperClipLover12@gmail.com", "LetMeIn88");
-        expect(resetPassword("PaperClipLover12@gmail.com", "LetMeIn88", "LetMeIn88", "Keys981", "Keys981")).toMatch("Password change successful.");
+        expect(resetPassword("PaperClipLover12@gmail.com", "LetMeIn88", "Keys981", "Keys981")).toMatch("Password reset succesful.");
 
     });
 });
