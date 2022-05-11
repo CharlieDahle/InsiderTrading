@@ -1,9 +1,13 @@
 
+
+const people = ["charlie", "trevor", "tina", "ben"];
+window.groups = {};
+
 /**
  *person class
  *takes a name
  */
- class person {
+class person {
   constructor(name) {
     if (typeof name === "string" || name instanceof String) {
       this.name = name;
@@ -25,18 +29,18 @@
       if (this.log[i][1] > 0) {
         console.log(
           this.name +
-            " owes " +
-            this.log[i][0].name +
-            " $" +
-            this.log[i][1].toFixed(2)
+          " owes " +
+          this.log[i][0].name +
+          " $" +
+          this.log[i][1].toFixed(2)
         );
       } else if (this.log[i][1] < 0) {
         console.log(
           this.log[i][0].name +
-            " owes " +
-            this.name +
-            " $" +
-            -this.log[i][1].toFixed(2)
+          " owes " +
+          this.name +
+          " $" +
+          -this.log[i][1].toFixed(2)
         );
       }
     }
@@ -53,11 +57,12 @@ class group {
       this.somePeople = somePeople;
       this.transNum = 0;
       this.transaction = [[]];
-      this.transactionLog = new Map(); // a log of all transactions. K is 5 digit random string, V is transaction object
+      this.transactionLog = {}; // a log of all transactions. K is 5 digit random string, V is transaction object
       this.transactionIDs = []; // storing all the unique transaction IDs for simplicity
       this.pos = [];
       this.neg = [];
 
+      /** 
       let b = document.getElementById("add-button");
       b.addEventListener("click", () => {
         let n = document.getElementById("nInput").value;
@@ -82,7 +87,11 @@ class group {
         this.createTable();
         saveCurrentTable(window.currentTableId, this);
         changeMainTab("home_table_" + window.currentTableId);
-      });
+       
+      }
+     
+      );
+        **/
     } else {
       throw new Error("array req");
     }
@@ -112,10 +121,8 @@ class group {
 
   makePayment(person, amt, item, date) {
     //neg amounts mean in debt
-    this.transactionLog.set(
-      this.makeid(5),
-      new Transaction(person.name, item, amt, date)
-    );
+    this.transactionLog[this.makeid(5)] = new Transaction(person.name, item, amt, date);
+
     let owed = amt / this.groupsize;
     for (let i = 0; i < this.groupsize; i++) {
       this.somePeople[i].total -= owed;
@@ -188,7 +195,7 @@ class group {
     }
   }
   getGroupOwe() {
-    this.transactions = [];
+    this.transaction = [];
     this.transNum = 0;
     this.calculate();
     if (this.transNum > 0) {
@@ -208,6 +215,9 @@ class group {
         }
       }
     }
+    else {
+      document.getElementById("calculated_answer").innerHTML = "";
+    }
   }
 
   makeid(length) {
@@ -218,7 +228,7 @@ class group {
     for (let i = 0; i < length; i++) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-    if (!this.transactionLog.has(result)) {
+    if (!this.transactionLog.hasOwnProperty(result)) {
       this.transactionIDs.push(result);
       return result;
     } else {
@@ -253,6 +263,7 @@ class group {
     //   //this.createTable();
     // });
 
+    console.log("creating table");
     let table = document.getElementById("transaction_table");
     table.innerHTML = "";
     let th = document.createElement("th");
@@ -271,8 +282,14 @@ class group {
       let oldText = "<ul>";
       let newText = "";
 
-      for (let [key, value] of this.transactionLog) {
+      var entries = Object.values(this.transactionLog);
+      for (var i = 0; i<entries.length; i++) {
+      
+        var value = entries[i];
+   
+
         if (value.name == this.somePeople[x].name) {
+         
           newText =
             "<li> <b>" +
             value.item +
@@ -288,6 +305,7 @@ class group {
         }
       }
       td.innerHTML = oldText + "</ul>";
+      console.log("new value");
       table.appendChild(tr);
     }
   }
@@ -332,6 +350,8 @@ class Transaction {
     this.date = newDate;
   }
 }
+
+
 /**
  * Hard coding a the model group
  */
@@ -387,7 +407,7 @@ function saveCurrentTable(tableId, group) {
   tableObj.log = {};
   var keys = group.transactionIDs;
   for (var i = 0; i < keys.length; i++) {
-    tableObj.log[keys[i]] = group.transactionLog.get(keys[i]);
+    tableObj.log[keys[i]] = group.transactionLog[keys[i]];
   }
 
   tableObj.ids = group.transactionIDs;
@@ -406,7 +426,11 @@ function loadToTable(tableId) {
   var tableObj = window.tableData[tableId];
 
   if (tableObj != null) {
-    usersInGroup = tableObj.users;
+    window.usersInGroup = tableObj.users;
+    if (tableObj.users == null) {
+
+      window.usersInGroup = [];
+    }
 
     var personLs = [];
     //create new group
@@ -416,7 +440,7 @@ function loadToTable(tableId) {
     g = new group(personLs);
 
     //convert log to map
-    transactionLog = new Map();
+    transactionLog = {}
     var keys = tableObj.ids;
     for (var i = 0; i < keys.length; i++) {
       var transaction = tableObj.log[keys[i]];
@@ -465,6 +489,7 @@ function changeMainTab(tabId) {
     var tableId = tabId.substring("home_table".length + 1);
     window.currentTableId = tableId;
 
+
     document.getElementById("table_title").innerHTML =
       tableId.replace("_", " ") + " group";
 
@@ -472,19 +497,18 @@ function changeMainTab(tabId) {
     var table = document.getElementById("transaction_table");
     table.innerHTML = "";
 
-    clearTransactions();
 
-    clearCalculated();
 
-    clearUsers();
+    //var loadResult = loadToTable(tableId);
+    g = window.groups[tableId];
 
-    var loadResult = loadToTable(tableId);
+    g.calculate();
+    g.getGroupOwe();
+    g.createTable();
 
-    if (loadResult) {
-      g.calculate();
-      g.getGroupOwe();
-      g.createTable();
-    }
+    set_correct_group_members(window.groups[window.currentTableId]);
+
+
   } else {
     document.getElementById(tabId).classList.remove("hiddenContent");
   }
@@ -496,26 +520,61 @@ function changeMainTab(tabId) {
  */
 function createCircleGroup() {
   /**
-   * create circle with user input
+   * open create circle group modal
    */
-  var parentDiv = document.createElement("div");
-  parentDiv.classList.add("circleGroup");
+  var new_circle_modal = document.createElement("div");
+  new_circle_modal.id = "new_circle_modal";
+  document.getElementById("mainContent").appendChild(new_circle_modal);
+
+  var new_circle_title = document.createElement("h1");
+  new_circle_title.innerHTML = "New Group";
+  new_circle_modal.appendChild(new_circle_title);
+
   var circleInput = document.createElement("input");
   circleInput.placeholder = "group name";
-  parentDiv.appendChild(circleInput);
-  var homeDiv = document.getElementById("home");
-  var addButton = homeDiv.children[homeDiv.children.length - 1];
-  addButton.before(parentDiv);
-  circleInput.focus();
+  new_circle_modal.appendChild(circleInput);
 
-  circleInput.onblur = function () {
-    if (this.value != "") {
-      addCircleWithName(this.value);
-      saveBubble(this.value);
-      addTabToHomeWithName(this.value);
+  //group member selections
+  for (var i = 0; i < people.length; i++) {
+    //add selectable people
+    var selectPerson = document.createElement("h2");
+    selectPerson.innerHTML = people[i];
+    selectPerson.classList.add("selectPerson");
+    selectPerson.onclick = function () {
+      this.classList.toggle("selected");
     }
-    this.parentElement.remove();
-  };
+    new_circle_modal.appendChild(selectPerson);
+  }
+
+  var finalize_group_button = document.createElement("h2");
+  finalize_group_button.innerHTML = "create";
+  finalize_group_button.id = "confirm_group_button";
+  new_circle_modal.appendChild(finalize_group_button);
+
+  finalize_group_button.onclick = () => {
+    if (circleInput.value != "" && !window.groups.hasOwnProperty(circleInput.value.trim())) {
+      addCircleWithName(circleInput.value);
+      saveBubble(circleInput.value);
+      addTabToHomeWithName(circleInput.value);
+
+
+      //create new group
+      var selected_people = [];
+      var selected_elems = document.getElementsByClassName("selected");
+      for (var i = 0; i < selected_elems.length; i++) {
+        selected_people.push(new person(selected_elems[i].innerHTML));
+      }
+      var new_group = new group(selected_people);
+      window.groups[circleInput.value.trim()] = new_group;
+
+
+      saveGroups();
+    }
+    new_circle_modal.remove();
+  }
+
+
+
 }
 
 /**
@@ -634,6 +693,111 @@ function loadAndAppendBubbles() {
   }
 }
 
+
+const GROUPS_KEY = "groups";
+
+/**
+ * saves the current groups to local storage
+ */
+function saveGroups() {
+  
+
+  var clone = Object.assign({}, window.groups);
+  var keys = Object.keys(clone);
+
+  //replace all people in people log of groups people with strings to avoid cicular json conversion
+  for(var i = 0; i<keys.length; i++){
+    var gr = clone[keys[i]];
+    for(var z = 0 ; z< gr.somePeople.length; z++){
+        var person = gr.somePeople[z];
+        var new_log = [];
+        for(var j = 0; j < person.log; j++){
+          new_log.push([person.log[j][0].name, person.log[j][1]])
+        }
+        person.log = new_log;
+    }
+  }
+
+  var saveRaw = JSON.stringify(window.groups);
+  localStorage.setItem(GROUPS_KEY, saveRaw);
+}
+
+/**
+ * loads groups to window data
+ */
+function loadGroups() {
+  var rawData = localStorage.getItem(GROUPS_KEY);
+  if (rawData != null) {
+    var object_data = JSON.parse(rawData);
+    var keys = Object.keys(object_data);
+    window.groups = {};
+    for (var i = 0; i < keys.length; i++) {
+
+      //in order to get the group functions back, a new group needs to made from the old objects
+      var obj = object_data[keys[i]];
+      var newGroup = new group(obj.somePeople);
+      //transactions need to be cloned aswell
+      var newTransactionLog = {};
+      var trans_keys = Object.keys(obj.transactionLog);
+      for (var z = 0; z < trans_keys.length; z++) {
+        var old_trans = obj.transactionLog[trans_keys[z]];
+        var newTrans = new Transaction(old_trans.name, old_trans.item, old_trans.total, old_trans.date);
+        newTransactionLog[trans_keys[z]] = newTrans;
+      }
+
+      newGroup.transactionLog = newTransactionLog;
+      newGroup.transactionIDs = obj.transactionIDs;
+      newGroup.transNum = obj.transNum;
+
+
+      //new group needs to have people log strings replaced with people
+      var peopleKey = {};
+      for(var z = 0; z < newGroup.somePeople; z++){
+        peopleKey[newGroup.somePeople[z].name] = newGroup.somePeople[z];
+      }
+      
+      for(var z = 0; z < newGroup.somePeople; z++){
+        var pe = newGroup.somePeople[z];
+        var new_log = [];
+        for(var j = 0; j < pe.log; j++){
+            var new_person = peopleKey[pe.log[j][0]]
+            new_log.push(new_person, peopleKey[pe.log[j][1]]);
+        }
+
+        pe.log = new_log;
+      }
+
+
+      window.groups[keys[i]] = newGroup;
+    }
+
+  }
+  else {
+
+    //create default groups
+    var default_people_1 = []
+    for (var i = 0; i < people.length; i++) {
+      default_people_1.push(new person(people[i]));
+    }
+    var default_people_2 = []
+    for (var i = 0; i < people.length; i++) {
+      default_people_2.push(new person(people[i]));
+    }
+    var default_people_3 = []
+    for (var i = 0; i < people.length; i++) {
+      default_people_3.push(new person(people[i]));
+    }
+    var default_people_4 = []
+    for (var i = 0; i < people.length; i++) {
+      default_people_4.push(new person(people[i]));
+    }
+
+    window.groups = { suitemates: new group(default_people_1), friends: new group(default_people_2), work_friends: new group(default_people_3), college_friends: new group(default_people_4) };
+    saveGroups();
+
+  }
+}
+
 /**
  * saves the current table into the local storage
  */
@@ -721,35 +885,52 @@ function loadAndAppendBubbles() {
 //   }
 // }
 
+
+
+
+//load current groups into data
+loadGroups();
+
+function set_correct_group_members(group) {
+  var select = document.getElementById("group_member_select");
+  select.innerHTML = "";
+
+  for (var i = 0; i < group.somePeople.length; i++) {
+    var new_option = document.createElement("option");
+    new_option.innerHTML = group.somePeople[i].name;
+    new_option.value = group.somePeople[i].name;
+    select.appendChild(new_option);
+  }
+}
+
 /**
- * called when the name select is changed. only for use with new group member option. replaces the dropdown with an input to enter the new name and then replaces it
+ * adds the current transaction to the group
  */
-function name_select_on_change(caller){
+function add_transaction() {
+  var total = document.getElementById("tInput").value.trim();
+  var item = document.getElementById("iInput").value.trim();
+  var date = document.getElementById("dInput").value.trim();
 
+  var p = document.getElementById("group_member_select").value;
 
-
-  if(caller.selectedIndex == caller.options.length - 1){
-    //last option select which is new member option
-
-    //create new name input
-    var new_name_input = document.createElement("input");
-    new_name_input.placeholder = "New Name";
-    caller.replaceWith(new_name_input);
-    new_name_input.old_elem = caller;
-
-    new_name_input.onblur = function(){
-      this.replaceWith(this.old_elem);
-      if(this.value.trim() != ""){
-        //add new person
-        var new_person_name = this.value.trim();
-
-        //PUT NEW PERSON CODE IN HERE
-      }
-
-
+  //get correct person
+  var correctPerson = null;
+  for(var i = 0; i< g.somePeople.length; i++){
+    if(p == g.somePeople[i].name){
+      correctPerson = g.somePeople[i];
     }
-    new_name_input.focus();
-
   }
 
+  g.makePayment(correctPerson, total, item, date);
+
+
+  g.calculate();
+  g.getGroupOwe();
+  g.createTable();
+
+  saveGroups();
+
+  document.getElementById("tInput").value = "";
+  document.getElementById("iInput").value = "";
+  document.getElementById("dInput").value = "";
 }
