@@ -1,26 +1,36 @@
-describe("strong Password", () => {
-    it("has correct length", () => {
-        expect(isStrongPassword("Abcde12345")).toBe(true);
+describe("getLogin", () => {
+    it("allows access with correct credentials", () => {
+
+        localStorage.setItem("fakeUser146@gmail.com", "LetMeIn46")
+        expect(getLogin("fakeUser146@gmail.com", "LetMeIn46")).toMatch("Login succesful.");
     });
-    it("cannot have password in it", () => {
-        expect(isStrongPassword("Mypassword3")).toBe(false);
+    it("rejects wrong password", () => {
+        expect(getLogin("fakeUser146@gmail.com", "YouAreWrong")).toMatch("Wrong password. Please try again.");
     });
-    it("has upper case letter", () => {
-        expect(isStrongPassword("Icecream46")).toBe(true);
+    it("no user", () => {
+        expect(getLogin("notExist24@gmail.com", "Anything23")).toMatch("No username found.");
     });
 });
 
-describe("correct username format", () => {
-    it("needs the @", () => {
-        expect(correctEmail("thnguyen@pugetsound.edu")).toBe(true);
-    });
-    it("must have a .", () => {
-        expect(correctEmail("thnguyen")).toBe(false);
-    });
-    it("is not correct", () => {
 
-        expect(correctEmail(12345)).toBe(false);
+describe("reset Password", () => {
+    it("does not accept nonexisting account", () => {
+        expect(resetPassword("notAKey865@gmail.com", "Cups1235", "mousePad63", "Keys981", "Camera09")).toMatch("This email does not exist.");
     });
-}); s
+    it("rejects wrong existing Password", () => {
+        localStorage.setItem("AnotherFakeUser146@gmail.com", "LetMeIn46");
+        expect(resetPassword("AnotherFakeUser146@gmail.com", "Cups1235", "mousePad63", "Keys981",
+            "Camera09")).toMatch("Incorrect old password.");
 
+    });
+    it("cannot confirm password", () => {
+        expect(resetPassword("AnotherFakeUser146@gmail.com", "LetMeIn46", "LetMeIn46", "Keys981",
+            "Camera09")).toMatch("Passwords do not match.");
 
+    });
+    it("successful reset", () => {
+        localStorage.setItem("PaperClipLover12@gmail.com", "LetMeIn88");
+        expect(resetPassword("PaperClipLover12@gmail.com", "LetMeIn88", "Keys981", "Keys981")).toMatch("Password reset succesful.");
+
+    });
+});

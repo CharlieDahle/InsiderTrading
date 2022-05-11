@@ -1,20 +1,20 @@
 /**
  * 
  * Checking for sucessful login
+ * 
+ * @param username Username that is inputed to access account
+ * @param password Password that is unpupted to access account
  */
-function getLogin() {
-  let username = document.getElementById("username").value;
-  let password = document.getElementById("password").value;
+function getLogin(username, password) {
   if (localStorage.getItem(username) != null) {
     if (localStorage.getItem(username) === password) {
       changeScr();
-      alert("Login succesful.");//redirect to homepage
-      return false;
+      return "Login succesful.";//redirect to homepage
     } else {
-      alert("Wrong password. Please try again.");
+      return "Wrong password. Please try again.";
     }
   } else {
-    alert("No username found.");
+    return "No username found.";
   }
 }
 
@@ -30,32 +30,36 @@ function changeScr(delay) {
 
 /**
  * 
- * Reset Password
+ * Reset Password for an existing account
+ * 
+ * @param username Username associated with account that user wants to change password for
+ * @param oldPassword The exisiting password that is linked with the account
+ * @param newPassword The new password that that user wants to use
+ * @param confirmPassword Confirmting that the the passwords are the same
  */
-function resetPassword() {
-  let username = document.getElementById("username").value;
-  let oldPassword = document.getElementById("oldPassword").value;
-  let newPassword = document.getElementById("newPassword").value;
-  let confirmPassword = document.getElementById("confirmPassword").value;
+function resetPassword(username, oldPassword, newPassword, confirmPassword) {
   if (localStorage.getItem(username) != null) {
     if (localStorage.getItem(username) === oldPassword) {
       if (newPassword === confirmPassword) {
         localStorage.setItem(username, newPassword)
         changeScr2();
-        alert("Password reset succesful.");//redirect to homepage
-        return false;
+        return "Password reset succesful.";
 
       } else {
-        alert("Passwords do not match.");
+        return "Passwords do not match.";
       }
     } else {
-      alert("Incorrect old password.");
+      return "Incorrect old password.";
     }
   } else {
-    alert("This email does not exist.");
+    return "This email does not exist.";
   }
 }
 
+/**
+ * 
+ * Change screen method after password is reset to login page
+ */
 function changeScr2(delay) {
   return new Promise((resolve) => {
     setTimeout(() => {

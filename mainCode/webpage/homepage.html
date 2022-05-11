@@ -170,6 +170,7 @@
 
     .circular--square {
         border-top-left-radius: 50% 50%;
+        /* Making profile picture into a circle*/
         border-top-right-radius: 50% 50%;
         border-bottom-right-radius: 50% 50%;
         border-bottom-left-radius: 50% 50%;
@@ -187,16 +188,18 @@
         align-items: center;
     }
 
+    /* Changes the text in the search bar */
     form.example input[type=text] {
         padding: 10px;
         font-size: 17px;
-        border: 1px solid grey;
+        border: 3px solid grey;
         float: left;
         width: 80%;
-        background: #f1f1f1;
+        border-radius: 15px 0px 0px 15px;
+        /* Rounded corners */
     }
 
-    /* Style the submit button */
+    /* Changes the buttob the submit button */
     form.example button {
         float: left;
         width: 20%;
@@ -204,11 +207,12 @@
         background: #5786ac;
         color: white;
         font-size: 17px;
-        border: 1px solid grey;
+        border: 3px solid grey;
         border-left: none;
+        border-radius: 0px 15px 16px 0px;
     }
 
-    /* Clear floats */
+    /* Adds a space under search bar */
     form.example::after {
         content: "";
         clear: both;
@@ -324,37 +328,31 @@
         </div>
 
         <div class="tabcontentwrapper hiddenContent" id="friends">
-            <!-- Load icon library -->
             <link rel="stylesheet"
                 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-            <!-- The form -->
             <form class="example" action="action_page.php">
-                <input type="text" placeholder="Search.." name="search">
+                <input type="text" placeholder="Search for Friends...." name="search">
                 <button type="submit"><i class="fa fa-search"></i></button>
             </form>
 
             <hr size="2" color="#929ee6">
             <div class=center-container><img class="circular--square"
                     src="https://www.essence.com/wp-content/uploads/2020/07/Candidate-4-scaled.jpg" alt="Barbie" />
-                &#160 &#160
-                &#160Tina</div>
+                &#160&#160&#160 Tina (You)</div>
             <hr size="2" color="#929ee6">
             <div class=center-container><img class="circular--square"
                     src="https://www.stepstherapy.com.au/wp-content/uploads/2018/10/Yazmin-profile-picture-square.jpg"
                     alt="Mary" />
-                &#160 &#160
-                &#160Charlie</div>
+                &#160&#160&#160 Charlie</div>
             <hr size="2" color="#929ee6">
             <div class=center-container><img class="circular--square"
                     src="https://christian.gen.co/images/profile.square.small.jpg" alt="Barry" />
-                &#160 &#160
-                &#160Barry Allen</div>
+                &#160&#160&#160 Trevor</div>
             <hr size="2" color="#929ee6">
             <div class=center-container><img class="circular--square"
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgpyVVhvmd6lKYeTpi-2IlMA52BdnMF4noNwNiY1Jtbc0p5kKlxvg1FZV9BD_9OvRERzA&usqp=CAU" />
-                &#160 &#160
-                &#160Jeffery Bezos</div>
+                &#160&#160&#160 Ben</div>
             <hr size="2" color="#929ee6">
         </div>
 
@@ -366,7 +364,9 @@
             <p><input type="password" name="newPassword" placeholder="New Password" id="newPassword" required></p>
             <p><input type="password" name="confirmPassword" placeholder="Confirm New Password" id="confirmPassword"
                     required></p>
-            <button id="passButton" onclick="resetPassword()">Change Password</button>
+            <button id="passButton"
+                onclick="resetPassword(document.getElementById('username').value, document.getElementById('oldPassword').value, document.getElementById('newPassword').value, document.getElementById('confirmPassword').value)">Change
+                Password</button>
         </div>
 
 </html>

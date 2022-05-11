@@ -4,8 +4,8 @@
 
 <style>
   .login {
-    background-image: url("https://thumbs.dreamstime.com/b/happy-stick-figure-man-woman-jumping-drinking-champagne-celebrating-new-year-dancing-hands-up-night-party-watching-fireworks-231370618.jpg");
     background-size: cover;
+    background-color: #FAF9F6;
     /* Set rules to fill background */
     min-height: 100%;
     min-width: 1024px;
@@ -42,6 +42,7 @@
 
   .submit {
     color: #fff;
+    /* Changed the button color to be a gradient */
     background: linear-gradient(to right, #929ee6, #6357e8);
     padding-left: 40px;
     padding-right: 40px;
@@ -58,7 +59,7 @@
     border: 3px solid rgb(49, 42, 174);
     text-align: center;
     width: 400px;
-    height: 520px;
+    height: 570px;
     margin: 1em auto;
     border-radius: 1.5em;
   }
@@ -67,17 +68,21 @@
 <script src="localStorage.js"></script>
 <div class="login">
   <div class="boxed">
+    <br>
     <img
       src="https://academicaffairs.ucdavis.edu/sites/g/files/dgvnsk2376/files/styles/sf_profile/public/images/person/blank-profile-picture-973460_1280.png?h=ecfff384&itok=_zias6vW"
       alt="Logo" width="200">
     <h1>Insider Trading</h1>
     <p>Create an account. </p>
+    <p>Please enter your email address and a password.</p>
     <form method="post">
-      <p><input type="username" name="login" value="" placeholder="Username" class="username" id="username" required>
+      <p><input type="username" name="username" value="" placeholder="Username" class="username" id="username" required>
       </p>
       <p><input type="password" name="password" value="" placeholder="Password" class="password" id="password" required>
       </p>
-      <button class="submit" id="loginButton" onclick="verifyNewUser()">Create Account</button>
+      <button class="submit" id="loginButton"
+        onclick="verifyNewUser(document.getElementById('username').value, document.getElementById('password').value)">Create
+        Account</button>
     </form>
   </div>
 </div>

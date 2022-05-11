@@ -62,6 +62,7 @@
     height: 600px;
     margin: 1em auto;
     border-radius: 1.5em;
+  }
 </style>
 
 <script src="login.js"></script>
@@ -73,7 +74,7 @@
     <p>"Where friends meet efficiency" </p>
     <form method="post">
       <p>Welcome back, please login to your account.</p>
-      <p><input type="username" name="login" value="" placeholder="Username" class="username" id="username" required>
+      <p><input type="username" name="username" value="" placeholder="Username" class="username" id="username" required>
       </p>
       <p><input type="password" name="password" value="" placeholder="Password" class="password" id="password" required>
       </p>
@@ -83,7 +84,8 @@
           Remember me on this computer
         </label>
       </p>
-      <button class="submit" id="loginButton" onclick="getLogin()">Login</button>
+      <button class="submit" id="loginButton"
+        onclick="getLogin(document.getElementById('username').value, document.getElementById('password').value)">Login</button>
     </form>
 
     <p>Forgot your password? <a href="setPassword.html">Click here to reset it</a>.</p>

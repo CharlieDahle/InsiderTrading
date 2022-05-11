@@ -1,33 +1,33 @@
-
-
 /**
  * 
  * Verify if new username is in email format
+ * 
+ * @param newUsername Username that is user wants to create in email format
+ * @param newPassword Password that user wants to use with the newUsername
  */
-function verifyNewUser() {
-  let newUsername = document.getElementById("username").value;
-  let newPassword = document.getElementById("password").value;
-
+function verifyNewUser(newUsername, newPassword) {
   if (correctEmail(newUsername)) {
     if (localStorage.getItem(newUsername) == null) {
       if (isStrongPassword(newPassword)) {
         localStorage.setItem(newUsername, newPassword);
         changeScr();
-        alert("New user created.");
-        return false;
+        return "New user created.";
       } else {
-        alert("Password must have at least 8 characters, not contain the word password and have an uppercase letter");
+        return "Password must have at least 8 characters, not contain the word password and have an uppercase letter";
       }
     } else {
-      alert("This email is already associated with an account. Try again.");
       newUsername = "";
+      return "This email is already associated with an account. Try again.";
     }
   } else {
-    alert("Incorrect email format.");
+    return "Incorrect email format.";
   }
 }
 
-
+/**
+ * 
+ * Changes screen to login page if creating user was successful
+ */
 function changeScr(delay) {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -40,19 +40,22 @@ function changeScr(delay) {
 /**
  * 
  * Ensure username is in correct email format
+ * 
+ * @param username Username that will be checked if it is in the correct format
  */
 //username input is email
 function correctEmail(username) {
   if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(username)) {
     return (true)
   }
-  //alert("Invalid email address.")
   return (false)
 }
 
 /**
  * 
  * Ensure password is strong
+ * 
+ * @param password Password that is checked to see if it is a strong password
  */
 function isStrongPassword(password) {
   if (password.length < 8) {
